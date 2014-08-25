@@ -3,15 +3,27 @@
  */
 
 var webdriver = require('selenium-webdriver');
-var assert = require('assert')
+var driver = new webdriver.Builder().
+    withCapabilities(webdriver.Capabilities.chrome()).
+    build();
+driver.get('http://www.google.com');
 
-var driver = webdriver.Browser().withCapabilities(webdriver.Capabilities.firefox()).build();
-driver.get("http://google.com");
-driver.findElement(webdriver.By.name('q')).sendKeys('visitamaresh');
-driver.findElement(webdriver.By.name('q')).submit();
+var element = driver.findElement(webdriver.By.name('q'));
+element.sendKeys('Cheese!');
+element.submit();
+
+driver.getTitle().then(function(title) {
+    console.log('Page title is: ' + title);
+});
+
 driver.wait(function() {
     return driver.getTitle().then(function(title) {
-        return title === 'visitamaresh - Google Search';
+        return title.toLowerCase().lastIndexOf('cheese!', 0) === 0;
     });
-}, 5000);
-assert.isTrue(driver.getPageSource().indexOf('Amaresh') > 0);
+}, 3000);
+
+driver.getTitle().then(function(title) {
+    console.log('Page title is: ' + title);
+});
+
+driver.quit();
