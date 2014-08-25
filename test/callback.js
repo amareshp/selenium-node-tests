@@ -6,7 +6,7 @@ var fs = require('fs');
 
 sleeper = function(milli) {
     var e = new Date().getTime() + milli;
-    console.log('sleepig: ' + milli + ' milliseconds');
+    console.log('sleeping: ' + milli + ' milliseconds');
 
     while (new Date().getTime() <= e) {
         /* do nothing, but burn a lot of CPU while doing so */
